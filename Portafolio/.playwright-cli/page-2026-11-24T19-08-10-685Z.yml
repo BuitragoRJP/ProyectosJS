@@ -1,0 +1,74 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - link "Carlos Arturo" [ref=e3] [cursor=pointer]:
+      - /url: ./
+    - navigation [ref=e4]:
+      - link "Trabajos" [ref=e5] [cursor=pointer]:
+        - /url: "#"
+      - link "Servicios" [ref=e6] [cursor=pointer]:
+        - /url: "#"
+      - link "Contactame" [ref=e7] [cursor=pointer]:
+        - /url: "#"
+  - generic [ref=e8]:
+    - generic [ref=e9]:
+      - generic [ref=e10]: H
+      - heading "Full Stack Developer" [level=3] [ref=e15]
+      - paragraph [ref=e16]: Permiteme ayudarte a crecer tu negocio creando la App que tanto necesitas.
+      - generic [ref=e17]:
+        - link [ref=e18] [cursor=pointer]:
+          - /url: "#"
+        - link [ref=e21] [cursor=pointer]:
+          - /url: "#"
+        - link [ref=e24] [cursor=pointer]:
+          - /url: "#"
+    - generic [ref=e27]:
+      - generic [ref=e28]: +50 Clientes
+      - generic [ref=e29]: +100 Trabajos realizados
+  - generic [ref=e30]:
+    - generic [ref=e31]:
+      - heading "Algunos de mis trabajos" [level=2] [ref=e32]
+      - paragraph [ref=e33]: Selección de mis mejores trabajos como freelancer
+    - generic [ref=e34]:
+      - link [ref=e35] [cursor=pointer]:
+        - /url: "#"
+      - link [ref=e36] [cursor=pointer]:
+        - /url: "#"
+      - link [ref=e37] [cursor=pointer]:
+        - /url: "#"
+      - link [ref=e38] [cursor=pointer]:
+        - /url: "#"
+      - link [ref=e39] [cursor=pointer]:
+        - /url: "#"
+      - link [ref=e40] [cursor=pointer]:
+        - /url: "#"
+  - generic [ref=e41]:
+    - generic [ref=e42]:
+      - heading "Comentarios de mis clientes" [level=2] [ref=e43]
+      - paragraph [ref=e44]: Esto es lo que opinan algunos de mis clientes sobre mi trabajo
+    - generic [ref=e45]:
+      - generic [ref=e48]:
+        - paragraph [ref=e49]: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rutrum purus dui, et viverra velit accumsan ut.
+        - paragraph [ref=e50]: John Doe
+        - paragraph [ref=e51]: Nombre de la empresa
+      - generic [ref=e54]:
+        - paragraph [ref=e55]: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rutrum purus dui, et viverra velit accumsan ut.
+        - paragraph [ref=e56]: John Doe
+        - paragraph [ref=e57]: Nombre de la empresa
+      - generic [ref=e60]:
+        - paragraph [ref=e61]: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rutrum purus dui, et viverra velit accumsan ut.
+        - paragraph [ref=e62]: John Doe
+        - paragraph [ref=e63]: Nombre de la empresa
+      - generic [ref=e66]:
+        - paragraph [ref=e67]: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rutrum purus dui, et viverra velit accumsan ut.
+        - paragraph [ref=e68]: John Doe
+        - paragraph [ref=e69]: Nombre de la empresa
+  - contentinfo [ref=e70]:
+    - heading "Contactame" [level=3] [ref=e71]
+    - paragraph [ref=e72]: Platicame de tu proyecto sin compromiso
+    - generic [ref=e73]:
+      - link [ref=e74] [cursor=pointer]:
+        - /url: "#"
+      - link [ref=e77] [cursor=pointer]:
+        - /url: "#"
+      - link [ref=e80] [cursor=pointer]:
+        - /url: "#"
