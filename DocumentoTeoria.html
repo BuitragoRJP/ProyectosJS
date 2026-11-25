@@ -1,0 +1,968 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>JavaScript</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3f0c7c15-d2cd-8021-9ade-c0c03bda62f0" class="page sans"><header><h1 class="page-title" dir="auto">JavaScript</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><p id="3f0c7c15-d2cd-800a-a65b-c9f02a304e61" class="" dir="auto">Notas:<div class="indented"><ul id="3f0c7c15-d2cd-8054-abe3-f8e5e1fb5b74" class="bulleted-list" dir="auto"><li style="list-style-type:disc">JavaScript es sensible a mayúsculas y minúsculas</li></ul><ul id="3f0c7c15-d2cd-8088-970f-ebcf2eb8887d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usa la sintaxis de tipo camelcase. getElementById</li></ul><ul id="3f0c7c15-d2cd-8027-a151-c077676a89b2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Punto y coma al final de cada sentencia</li></ul></div></p><p id="3f0c7c15-d2cd-8011-ab4b-ee2795b91152" class="" dir="auto">Formas de hacer código JS:<div class="indented"><ul id="3f0c7c15-d2cd-8020-847a-de52ff16ec0c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">En el archivo HTML al final de la etiqueta body usaremos la etiqueta script.</li></ul><ul id="3f0c7c15-d2cd-80a7-9b61-d6531e6360ef" class="bulleted-list" dir="auto"><li style="list-style-type:disc">En el archivo HTML en la etiqueta head se usa la etiqueta script defer para que se ejecute toda la estructura y al final la etiqueta js.</li></ul><ul id="3f0c7c15-d2cd-80bc-9d28-ff55a7d3cce6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Archivos externos usando la etiqueta script con src para importarlos.</li></ul></div></p><h2 id="3fac7c15-d2cd-80cb-a059-fd8f0e2ab9da" class="" dir="auto">Aprendizaje</h2><details id="3fac7c15-d2cd-8036-ac6e-e63f4b8e3bd3" open="" class="toggle" dir="auto"><summary>Introducción</summary><div class="indented"><h3 id="3fac7c15-d2cd-8020-9924-c8f8d824f8d0" class="" dir="auto">Variables</h3><details id="3fac7c15-d2cd-8097-940b-fe0e93b2a706" open="" class="toggle" dir="auto"><summary>Como definir variables</summary><div class="indented"><p id="3fac7c15-d2cd-801d-93ba-f00c10943826" class="" dir="auto">con la etiqueta var seguido de un identificador empezado con letras, luego = y el valor; Ejemplo: var edad = 27; otra opción es con la etiqueta let siguiendo la misma estructura y la etiqueta const.</p><p id="3fac7c15-d2cd-80fc-9d2c-d5e16b171aa0" class="" dir="auto">Diferencias:</p><table id="3fac7c15-d2cd-8097-99a5-f96e875097ae" class="simple-table" dir="ltr"><tbody><tr id="3fac7c15-d2cd-8052-9a1b-fdd9d8be9966" dir="ltr"><td id="l[sI" class="" style="width:214.33333333333334px">var</td><td id="[qlM" class="" style="width:214.33333333333334px">let</td><td id="PyV|" class="" style="width:214.33333333333334px">const</td></tr><tr id="3fac7c15-d2cd-8091-b079-fb580760ccf7" dir="ltr"><td id="l[sI" class="" style="width:214.33333333333334px">define variables globales.</td><td id="[qlM" class="" style="width:214.33333333333334px">define variables para bloques concretos de código.</td><td id="PyV|" class="" style="width:214.33333333333334px">define constantes, por lo que se usa para valores que no queremos redefinir.</td></tr></tbody></table></div></details><details id="3fac7c15-d2cd-805c-82e2-d3a0542f5299" open="" class="toggle" dir="auto"><summary>Tipos de variables</summary><div class="indented"><ul id="3fac7c15-d2cd-808a-90cb-f15c54a0cfa6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">String - cadenas de texto (usar ‘’ o “”)</li></ul><ul id="3fac7c15-d2cd-8014-973a-f720818c654b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">number - número </li></ul><ul id="3fac7c15-d2cd-8094-aaee-d595bf6694ad" class="bulleted-list" dir="auto"><li style="list-style-type:disc">boolean - verdadero o falso</li></ul><ul id="3fac7c15-d2cd-8085-8a77-e957a39ad963" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Arrays - arreglo definido con []</li></ul><ul id="3fac7c15-d2cd-8051-a616-e38c02b5bd35" class="bulleted-list" dir="auto"><li style="list-style-type:disc">object - objetos  definido con {}</li></ul><ul id="3fac7c15-d2cd-80bf-8b53-ebc36259be5b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">function - funciones se define con la etiqueta function seguido del nombre de la función y paréntesis con o sin parámetros y luego el bloque de la función.</li></ul><p id="3fac7c15-d2cd-809c-abbb-f0ba1a8cd9df" class="" dir="auto">Tipo de Valor</p><ul id="3fac7c15-d2cd-80c3-b3d9-db66c6660e48" class="bulleted-list" dir="auto"><li style="list-style-type:disc">null - valor nulo</li></ul><ul id="3fac7c15-d2cd-8073-9a41-dbc024d490c9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">undefined - valor sin definir</li></ul></div></details><details id="3fac7c15-d2cd-8074-b24c-f664bf7cb0da" open="" class="toggle" dir="auto"><summary>Operadores</summary><div class="indented"><details id="3fac7c15-d2cd-8066-9429-f0d995020075" open="" class="toggle" dir="auto"><summary>Operadores normales</summary><div class="indented"><p id="3fac7c15-d2cd-80b3-9400-fa7cef6d921f" class="" dir="auto">= asignación</p><p id="3fac7c15-d2cd-80fb-a168-f29e2bc21401" class="" dir="auto">+ Suma</p><p id="3fac7c15-d2cd-8027-b0c8-ce7ae76fd2b5" class="" dir="auto">- Resta</p><p id="3fac7c15-d2cd-80e6-adfc-cdbe4d1b69af" class="" dir="auto">* Multiplicación</p><p id="3fac7c15-d2cd-801b-b01b-d1526cc3baf2" class="" dir="auto">/División</p><p id="3fac7c15-d2cd-80d5-a0e6-f37c154226a0" class="" dir="auto">%Modulo</p><p id="3fac7c15-d2cd-80cf-8566-edd66ff0837c" class="" dir="auto">++ aumento en 1</p><p id="3fac7c15-d2cd-80a8-83ff-c1ef8667e64c" class="" dir="auto">— diminuye en 1</p></div></details><details id="3fac7c15-d2cd-80cc-b887-c3241089cf30" open="" class="toggle" dir="auto"><summary>Operadores de asignación</summary><div class="indented"><p id="3fac7c15-d2cd-8049-854f-e5277daea8f3" class="" dir="auto">+= suma al valor de una variable</p><p id="3fac7c15-d2cd-801b-bbe3-c193ffdbaba7" class="" dir="auto">-= resta al valor de una variable</p><p id="3fac7c15-d2cd-8007-a112-e9af89b07e05" class="" dir="auto">*= multiplica el valor de una variable</p><p id="3fac7c15-d2cd-8009-b6c7-cdc28026b818" class="" dir="auto">/= divide el valor de una variable</p></div></details><details id="3fac7c15-d2cd-804e-8adc-d2ddbe411e9a" open="" class="toggle" dir="auto"><summary>Operadores de comparación</summary><div class="indented"><p id="3fac7c15-d2cd-8017-be24-d5b46755070a" class="" dir="auto">&lt; menor que</p><p id="3fac7c15-d2cd-80fc-b15d-c0a97508023d" class="" dir="auto">&gt; mayor que</p><p id="3fac7c15-d2cd-808e-8b7a-daaadfc36b55" class="" dir="auto">≤ menor o igual</p><p id="3fac7c15-d2cd-8076-aacd-d908517d0b4c" class="" dir="auto">≥ mayor o igual</p><p id="3fac7c15-d2cd-80a7-a941-c448b99b78d7" class="" dir="auto">== igual que (comparación de valor) ejemplo 10 == ‘10’ esto seria verdadero pq el valor es el mismo</p><p id="3fac7c15-d2cd-80ab-b514-d48a2de06b26" class="" dir="auto">=== igual que (compara valor y tipo) ejemplo 10 === ‘10’ esto es false pq no son el mismo tipo de valor, valen lo mismo pero uno es texto y el otro número.</p><p id="3fac7c15-d2cd-80d0-a6fd-c0cf3663908f" class="" dir="auto">? asignar un valor personalizado en caso de tue o false, ejemplo: 7 &gt; 5 ? “el primer número es mayor” : “el segundo número es mayor”; la primera parte escrita después del signo ? es el true y la que va después de los : es la parte del false.</p><p id="3fac7c15-d2cd-8054-9e7a-de7c1c2f21b9" class="" dir="auto">
+</p></div></details><details id="3fac7c15-d2cd-8000-b08a-c09bfe1d94b8" open="" class="toggle" dir="auto"><summary>Operadores lógicos</summary><div class="indented"><p id="3fac7c15-d2cd-80b5-ab60-c33d58fcaaf6" class="" dir="auto">&amp;&amp; AND</p><p id="3fac7c15-d2cd-804f-b1e6-e6d41c6ac8d7" class="" dir="auto">|| OR</p><p id="3fac7c15-d2cd-8098-a00a-fef7545495f0" class="" dir="auto">! NOT</p></div></details></div></details><details id="3fac7c15-d2cd-8064-a31d-c233d6e6bc9d" open="" class="toggle" dir="auto"><summary>Arreglos</summary><div class="indented"><p id="3fac7c15-d2cd-8005-868b-e82e7d1c991c" class="" dir="auto">const arreglo = [&quot;texto&quot;, 456.4534, false, { propiedad: &quot;valor&quot; }, [1, 2, 3]];</p></div></details><details id="3fac7c15-d2cd-8098-8192-e8853640b199" open="" class="toggle" dir="auto"><summary>Objetos</summary><div class="indented"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3fac7c15-d2cd-8064-a0db-da9f2e86194b" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const persona = {
+    nombre: &quot;Carlos&quot;,
+    edad: 27,
+    email: &quot;ejemplo@gmail.com&quot;,
+    suscripcion: {
+        web: true,
+        onrop: true,
+    },
+    colores: [&quot;verde&quot;,&quot;azul&quot;],
+    saludo: function () {
+        alert(&quot;hola&quot;);
+    },
+};</code></pre><p id="3fac7c15-d2cd-8047-a10c-fe43e1a7e778" class="" dir="auto">
+</p></div></details><details id="3fac7c15-d2cd-80b3-904c-cfb28677a27e" open="" class="toggle" dir="auto"><summary>template strings</summary><div class="indented"><p id="3fac7c15-d2cd-8088-9ba0-c2ffd72d6fca" class="" dir="auto">console.log(` ${dentro de este campo podemos poner variables y estarian dentro del string}`);</p></div></details><details id="3fac7c15-d2cd-8037-913b-c59fb561ce8c" open="" class="toggle" dir="auto"><summary>onClick llamada de función</summary><div class="indented"><p id="3fac7c15-d2cd-80ec-9fea-c2d3fc1044ca" class="" dir="auto">se define una función sea como ejemplo:</p><pre id="3fac7c15-d2cd-80de-a9cd-dafa0456de7f" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function saludo() {
+    console.log(&quot;pepe&quot;);
+}
+</code></pre><p id="3fac7c15-d2cd-8019-964b-f2c61f092fc5" class="" dir="auto">esta función puede ser llamada desde la pagina web atreves de un botón usando Onclick:</p><pre id="3fac7c15-d2cd-80e0-b57e-e8cf2b804684" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;button onclick=&quot;saludo()&quot;&gt;
+        perico
+    &lt;/button&gt;</code></pre><p id="3fac7c15-d2cd-80c8-adcc-ce8d1533b1ab" class="" dir="auto">al clickear el botón se ejecutará la función.</p></div></details><h3 id="3fac7c15-d2cd-80bd-9707-c091e452bfdf" class="" dir="auto">Clase</h3><details id="3fac7c15-d2cd-80fa-be88-d1ea8ad726d4" open="" class="toggle" dir="auto"><summary>Class</summary><div class="indented"><p id="3fac7c15-d2cd-8029-baa1-f7f9a77a14ac" class="" dir="auto">se define el nombre de la clase con la etiqueta class: class Usuario {}</p></div></details><details id="3fac7c15-d2cd-80e3-b428-d381c9ce1851" open="" class="toggle" dir="auto"><summary>Constructor</summary><div class="indented"><p id="3fac7c15-d2cd-809e-ad95-ddee515ed5df" class="" dir="auto">método para generar el objeto de la clase, donde se definen los parámetros:</p><p id="3fac7c15-d2cd-8014-a9b3-c60bb4584bb8" class="" dir="auto">constructor(nombre, apellido){<br/>this.nombre = nombre;<br/>this.apellido = apellido;<br/>}</p></div></details><details id="3fac7c15-d2cd-8056-b306-e4f1c3b2ccd7" open="" class="toggle" dir="auto"><summary>Uso</summary><div class="indented"><p id="3fac7c15-d2cd-80ca-bc4d-f0854e3aa1ac" class="" dir="auto">Para generar un objeto de clase se usa la etiqueta new seguido del nombre de la clase y agregamos los valores de los parámetros que solicita el constructor.</p></div></details><details id="3fac7c15-d2cd-80ee-a79b-dc3068b21c72" open="" class="toggle" dir="auto"><summary>Herencia</summary><div class="indented"><p id="3fac7c15-d2cd-80f8-9d0b-e0be5584de77" class="" dir="auto">Al crear una clase podemos extenderla de una clase ya existente y con podemos usar los métodos y parámetros de constructor podremos extenderla con la etiqueta extends seguido del nombre de la clase padre:<br/>class moderador exteds usuario(){}</p><p id="3fac7c15-d2cd-80e3-b814-f4a5e3e4596c" class="" dir="auto">ahora para heredar el constructor del padre, dentro del constructor de la clase donde estemos podremos usar el método super(); este método utiliza los parámetros del padre únicamente tenemos que enviarle los valores:<br/>super(nombre, apellido);</p></div></details><h3 id="3fac7c15-d2cd-808a-a4d8-de0b2888f576" class="" dir="auto">CallBack y Promesas</h3><details id="3fac7c15-d2cd-80e4-a048-e2326e60e2ea" open="" class="toggle" dir="auto"><summary>Callbacks</summary><div class="indented"><p id="3fac7c15-d2cd-807d-9f44-d4ed1a059a9c" class="" dir="auto">Función invocable normalmente encontrada en librerias, la funcion solicita parametro y una funcion de ejecución posterior a la ejecucíon de la función. Este tipo de funciones se llama callback, esto es para retornar información y directamente ejecutarla en la funcion que estamos enviando.<br/>Obtenerdatos(”255039128738”, (Informacion) ⇒ {<br/>”LOGICA DE PROCESAMIENTO DE LA INFORMACIÓN RETORNADA POR LA FUNCION OBTENER DATOS”<br/>});</p></div></details><details id="3fac7c15-d2cd-803e-a370-e9649fce4425" open="" class="toggle" dir="auto"><summary>Promesas</summary><div class="indented"><p id="3fac7c15-d2cd-80be-9139-e0afbab90b1c" class="" dir="auto">Es una función que permite dejar en navegador a la escucha con la promesa de que le retornaremos la información.</p><p id="3fac7c15-d2cd-8051-8ac7-da47279df839" class="" dir="auto">const promesa = new Promise((resolve, reject) ⇒ {<br/>// acciónes o logica de ejecución<br/>resolve(”enviamos la respuesta”)<br/>reject(”enviamos el mensaje del pq falló el procesamiento”)<br/>});<br/><br/>para ejecutar codigo adicional y mostrar el mensaje cuando se usa resolve debemos definir la .then:<br/>promesa.then((mensaje) ⇒ {<br/>// mostrar al usuario o procesar la respuesta lo importante es que este bloque se lanza cuando se usa resolve<br/>});<br/><br/>para ejecutar código adicional y mostrar el mensaje cuando se usa reject debemos definir la .catch:<br/>misma lógica anterior para resolve solo cambia el .then por .catch<br/><br/><br/><br/></p></div></details><h3 id="3fac7c15-d2cd-800e-9ec9-e991d51b9b7e" class="" dir="auto">Async/Await y Try/Catch</h3><details id="3fac7c15-d2cd-802c-bcb1-e9876735aa7a" open="" class="toggle" dir="auto"><summary>Explicación</summary><div class="indented"><p id="3fac7c15-d2cd-8039-9480-f14602dc5d8b" class="" dir="auto">función asíncrona que permite esperar la respuesta de una promesa para ejecutar código, con await esperamos la respuesta, y para usar await debemos definir la funcion como async. esto unicamente captura la respuesta de exito para capturar la respuesta de error se debe trabajar con el bloque try y catch.<br/><br/>const mostrar = async() ⇒{<br/>try{<br/>const respuesta = await ObtenerDatos();<br/>//procesamos la respuesta o la imprimirmos<br/>}catch (error){<br/>console.log(error)<br/>//Este bloque de codigo se ejecuta cuando se captura el error interrumpiendo el bloque try y ejecutando el bloque catch.<br/>};<br/>}:</p></div></details></div></details><details id="3fac7c15-d2cd-80eb-a9ee-f685ad063d1b" open="" class="toggle" dir="auto"><summary>Rollup Modules</summary><div class="indented"><details id="3fac7c15-d2cd-80d1-aec5-eb8cbedd926b" open="" class="toggle" dir="auto"><summary>Descargas</summary><div class="indented"><p id="3fac7c15-d2cd-80c5-951e-e275288009b8" class="" dir="auto">Para usar rollup se necesita descargar NodeJS.<br/>Ya con Node.js en la carpeta de nuestro proyecto ejecutamos npm init -y para generar los archivos de package.json e instalar las dependencias.<br/>ya con los archivos de dependencias procedemos a instalar rollup (revisar documentación) se puede instalar de forma global o de forma local.<br/>INSTALACIÓN LOCAL: npm install rollup —save-dev</p></div></details><details id="3fac7c15-d2cd-8027-aaa2-e0e4a8826950" open="" class="toggle" dir="auto"><summary>Configuración</summary><div class="indented"><p id="3fac7c15-d2cd-80ff-82a5-c9ec4f6b2a33" class="" dir="auto">Crear archivo rollup.config.mjs y poner::</p><pre id="3fac7c15-d2cd-8063-b6f8-e1f69afdbd25" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">export default { 
+  input: &quot;./src/index.js&quot;, ubicación del archivo de entrada
+  output: {
+    file: &quot;./public/bundle.js&quot;, ubicación de archivo de salida
+    format: &quot;cjs&quot;,
+  },
+};</code></pre><p id="3fac7c15-d2cd-80c6-90be-ceb608a01a0a" class="" dir="auto">creamos el script de ejecución en package.json para compilar los importes en el archivo de salida:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js" integrity="sha512-QXFMVAusM85vUYDaNgcYeU3rzSlc+bTV4JvkfJhjxSHlQEo+ig53BtnGkvFTiNJh8D+wv6uWAQ2vJaVmxe8d3w==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3fac7c15-d2cd-80f0-82a6-cae63214f181" class="code code-wrap" data-notion-code-syntax="json"><code class="language-json" style="white-space:pre-wrap;word-break:break-all">&quot;scripts&quot;: {
+    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,
+    &quot;build&quot;: &quot;rollup --config --watch&quot; script agregado para la actualización
+  },</code></pre><p id="3fac7c15-d2cd-808e-a32d-ff6de4e18724" class="" dir="auto">y en la terminal (obviamente en la ubicación del proyecto) ejecutamos npm run build.</p><p id="403c7c15-d2cd-80bc-987c-eb867cbba61d" class="" dir="auto">Importante:</p><pre id="403c7c15-d2cd-805b-9f00-de5a210e7258" class="code code-wrap" data-notion-code-syntax="json"><code class="language-json" style="white-space:pre-wrap;word-break:break-all">&quot;type&quot;: &quot;module&quot;,
+  &quot;name&quot;: &quot;tienda&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;&quot;,
+  &quot;main&quot;: &quot;index.js&quot;,</code></pre><p id="403c7c15-d2cd-80a0-8cc4-c08b34746a17" class="" dir="auto">cambiar el main a index.js y cambiar el type a module.</p></div></details><details id="3fac7c15-d2cd-8049-b94e-f4b41b715420" open="" class="toggle" dir="auto"><summary>Imports y Exports</summary><div class="indented"><details id="3fac7c15-d2cd-80f2-8dd7-d876edd99948" open="" class="toggle" dir="auto"><summary>Export nameSpace y named</summary><div class="indented"><p id="3fac7c15-d2cd-804a-82ce-e89a722b4310" class="" dir="auto">La forma de exportar no es diferente para estos 2.</p><pre id="3fac7c15-d2cd-8017-a943-cfa0deb98fad" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// nameSpace
+export const funSumar = (num1, num2) =&gt; {
+  console.log(`Sumando ${num1} + ${num2} = ${num1 + num2}`);
+};
+
+export const sumar = &quot;suma&quot;;</code></pre><pre id="3fac7c15-d2cd-80ba-9d0c-c2d0f1da2fc3" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// named
+export const calcularFactorial = () =&gt; {
+  console.log(&quot;Factorial calculado&quot;);
+};
+
+export const nombre = &quot;pedro&quot;;</code></pre></div></details><details id="3fac7c15-d2cd-804e-908f-e0fae03c2580" open="" class="toggle" dir="auto"><summary>Import nameSpace</summary><div class="indented"><pre id="3fac7c15-d2cd-80f9-bbdd-cafa598d1559" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// nameSpaceImports
+import * as operaciones from &quot;./nameSpaceExports&quot;;
+console.log(operaciones.sumar);
+operaciones.funSumar(12, 13);
+</code></pre><p id="3fac7c15-d2cd-8019-8250-e05a6ac8d59e" class="" dir="auto">
+</p></div></details><details id="3fac7c15-d2cd-808c-a19d-fd8b26921baf" open="" class="toggle" dir="auto"><summary>Import named</summary><div class="indented"><pre id="3fac7c15-d2cd-80b4-aca8-fc362d2a4ac1" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// namedImport
+import { nombre, calcularFactorial } from &quot;./namedExports&quot;;
+console.log(`El nombre del cliente es ${nombre}`);
+calcularFactorial();</code></pre><p id="3fac7c15-d2cd-80cc-b561-f460a7a9216f" class="" dir="auto">
+</p></div></details><details id="3fac7c15-d2cd-8049-a152-e6710d3aaa12" open="" class="toggle" dir="auto"><summary>Import y Export default</summary><div class="indented"><p id="3fac7c15-d2cd-80ad-87af-edde9783ebce" class="" dir="auto">La forma de exportar es para tener una unica función para exportar.</p><pre id="3fac7c15-d2cd-8079-9da2-cdf017c2df1b" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">export default () =&gt; {
+  return {
+    nombre: &quot;Juan&quot;,
+    edad: 27,
+  };
+};</code></pre><p id="3fac7c15-d2cd-8057-8696-c08a1277a2ac" class="" dir="auto">Al momento de importar podemos ponerle el nombre que queramos.</p><pre id="3fac7c15-d2cd-80d6-ae38-fecaa89a2858" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// defaultImports
+import usuario from &quot;./defaultExports&quot;;
+console.log(usuario());</code></pre><p id="3fac7c15-d2cd-8009-8215-da850b05e329" class="" dir="auto">
+</p></div></details><details id="3fac7c15-d2cd-8097-a399-d8548feb601d" open="" class="toggle" dir="auto"><summary>Import y Export Empty</summary><div class="indented"><p id="3fac7c15-d2cd-80e2-b389-c821708473e2" class="" dir="auto">Esto permite cargar el funcionamiento de un archivo .js sin cargar objetos a la archivo donde se importa.</p><pre id="3fac7c15-d2cd-8018-b0ab-c5c9061f62bb" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// empty
+//logica de funcionamiento
+console.log(&quot;Estamos ejecutando&quot;);</code></pre><p id="3fac7c15-d2cd-806a-99f3-cefa24ecadce" class="" dir="auto">y se importa sin señalar un objeto, unicamente el archivo.</p><pre id="3fac7c15-d2cd-80d0-b07c-c89367faa704" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// emptyImports
+import &quot;./emptyExports&quot;;</code></pre><p id="3fac7c15-d2cd-806b-a665-dde9b769930e" class="" dir="auto">
+</p></div></details></div></details></div></details><details id="3fac7c15-d2cd-80e7-8c2a-fd9d6fe198fe" open="" class="toggle" dir="auto"><summary>BOM</summary><div class="indented"><details id="3fbc7c15-d2cd-80a8-8c88-c8051aaee116" open="" class="toggle" dir="auto"><summary>.open()</summary><div class="indented"><p id="3fbc7c15-d2cd-804a-b15e-f4c703fc745f" class="" dir="auto">BOM siendo Browser Object Model es un objeto que nos permite usar funciones sobre la venta de la aplicación o sobre el mismo navegador. Ese objeto siento “window”</p><p id="3fbc7c15-d2cd-80b6-b650-ed864a543249" class="" dir="auto">uno de los ejemplos más comunes:</p><pre id="3fbc7c15-d2cd-801f-8856-c7c70468bb26" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const abrir = () =&gt; {
+    window.open(&quot;file:///C:/Users/Juan2/OneDrive/Escritorio/ProyectosCursos/ProyectosJavascript/Teoria/modulos/public/index.html&quot;,
+        &quot;Mi Nueva Ventana&quot;, 
+        &quot;height=800px,width= 800px&quot;); 
+};</code></pre><p id="3fbc7c15-d2cd-8062-9cc9-dd8081422fbd" class="" dir="auto">En este ejemplo se usa la función .open() este método puede recibir 3 parámetros los cuales son: <br/>1.- URL de la web que se desea abrir<br/>2.- Nombre de la ventana<br/>3.- parámetros HTML que queramos agregar, revisar docimentación <a href="https://developer.mozilla.org/es/docs/Web/API/Window/open#position_and_size_features">link</a>.</p></div></details><details id="3fbc7c15-d2cd-80b1-b1e9-f7261434ec54" open="" class="toggle" dir="auto"><summary>.document.write()</summary><div class="indented"><pre id="3fbc7c15-d2cd-807d-a9e2-c6f0031a379b" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">ventana.document.write(&quot;&lt;h1&gt;Hola Mundo&lt;/h1&gt;&quot;); </code></pre><p id="3fbc7c15-d2cd-80aa-82b2-c4db16b8d6d1" class="" dir="auto">con este método podemos ejecutar HTML dentro de la ventana, logrando vistas dinamicas.</p></div></details><details id="3fbc7c15-d2cd-80b2-ad08-e9b36b70c0a5" open="" class="toggle" dir="auto"><summary>.close()</summary><div class="indented"><p id="3fbc7c15-d2cd-80ae-89f3-f1ae328364ab" class="" dir="auto">la variable que almacena la ventana se le aplica el método .close(), cerrando la ventana.</p><pre id="3fbc7c15-d2cd-8018-82e4-c7d4ca4b7650" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const cerrar = () =&gt; {
+    ventana.close();
+};</code></pre><p id="3fbc7c15-d2cd-8014-bf7d-f8364d07704a" class="" dir="auto">
+</p></div></details><details id="3fbc7c15-d2cd-80bc-a3cc-db14c31fbccd" open="" class="toggle" dir="auto"><summary>Objeto Screen</summary><div class="indented"><pre id="3fbc7c15-d2cd-8080-b42c-d322fb52e289" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// screen object
+const ancho = window.screen.width;
+const alto = window.screen.height;
+console.log(`El ancho de la pantalla es: ${ancho}`);
+console.log(`El alto de la pantalla es: ${alto}`);</code></pre><p id="3fbc7c15-d2cd-800f-856b-eecc94eb1e5b" class="" dir="auto">Esto nos permite conoces el tamaño real de la pantalla del usuario.</p><pre id="3fbc7c15-d2cd-8099-9461-f6f507a78154" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(`El ancho de la ventana es: ${window.screen.availWidth}`);
+console.log(`El alto de la ventana es: ${window.screen.availHeight}`);</code></pre><p id="3fbc7c15-d2cd-8083-b586-c9259b1b2c87" class="" dir="auto">Espacio de la pantalla descontando lo que ocupe la barra de navegación.</p><p id="3fbc7c15-d2cd-808c-862e-ecd727676a50" class="" dir="auto">
+</p></div></details><details id="3fbc7c15-d2cd-80c0-9042-cc1adeaa0d30" open="" class="toggle" dir="auto"><summary>.innerWidth y innerHeight</summary><div class="indented"><pre id="3fbc7c15-d2cd-803c-bad4-fc655fabe165" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(`El ancho de la ventana es: ${window.innerWidth}`);
+console.log(`El alto de la ventana es: ${window.innerHeight}`);</code></pre><p id="3fbc7c15-d2cd-80db-8903-f3f47af7a2e3" class="" dir="auto">Nos permite conocer el tamaño actual de la ventana de navegación.</p></div></details><details id="3fbc7c15-d2cd-806b-a142-e493a2e05da9" open="" class="toggle" dir="auto"><summary>Location y History</summary><div class="indented"><pre id="3fbc7c15-d2cd-8050-b7b8-cfd290824b53" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">// location 
+console.log(window.location);
+console.log(window.location.href);</code></pre><p id="3fbc7c15-d2cd-80e7-a48a-cc2dbec2d9f7" class="" dir="auto">el atributo location contiene información sobre la ubicación en la web de nuestra pagina.<br/>el href contiene la URL directa de nuesta paginación actual en la web.</p><p id="3fbc7c15-d2cd-80a7-bb23-e9c5d3016b3f" class="" dir="auto">Location es un objetoq ue contiene información  extensa de la ubicación de la pagina.</p><pre id="3fbc7c15-d2cd-8029-928b-db9fae54bb56" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const back = () =&gt; {
+    window.history.back();
+}
+const forward = () =&gt; {
+    window.history.forward();
+}</code></pre><p id="3fbc7c15-d2cd-8007-ae79-f2eb6cd04b76" class="" dir="auto">el atributo history permite navegar entre el historial de la pagina ya sea retroceder o avanzar.</p></div></details><details id="3fbc7c15-d2cd-807f-b776-f6aa7363a811" open="" class="toggle" dir="auto"><summary>navigator</summary><div class="indented"><p id="3fbc7c15-d2cd-8011-b903-de95124bc7be" class="" dir="auto">Con este atributo de window podemos buscar información del navegador y sus cookies.</p><pre id="3fbc7c15-d2cd-80c6-b667-f08953cbab29" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(navigator.cookieEnabled);
+console.log(navigator.language);
+console.log(navigator.userAgent);
+console.log(navigator.onLine);</code></pre><p id="3fbc7c15-d2cd-80ad-af68-e3d32e0de810" class="" dir="auto">
+</p></div></details><details id="3fbc7c15-d2cd-806b-b4a8-dce093356151" open="" class="toggle" dir="auto"><summary>Alerts</summary><div class="indented"><pre id="3fbc7c15-d2cd-8026-a7e9-ccda05f3ef99" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">alert(&quot;Aviso importante&quot;)
+confirm(&quot;Desea continuar?&quot;)
+prompt(&quot;Digite su nombre:&quot;)</code></pre><p id="3fbc7c15-d2cd-8091-a48f-d476d8a53b1d" class="" dir="auto">Alert solo muestra un aviso en pantalla con un boton y ya.</p><p id="3fbc7c15-d2cd-80c5-afbb-c24cbb89c7a4" class="" dir="auto">confirm tiene 2 botones para confirmar y para rechazar</p><p id="3fbc7c15-d2cd-8027-beb0-eb10f8310a62" class="" dir="auto">prompt tiene un input de texto que podemos guardar en una variable.</p></div></details><details id="3fbc7c15-d2cd-80ee-b9c1-dcf5d8321235" open="" class="toggle" dir="auto"><summary>timers</summary><div class="indented"><details id="3fcc7c15-d2cd-8019-a88d-f0a301bdfb41" open="" class="toggle" dir="auto"><summary>setTimeout y clearTimeout</summary><div class="indented"><pre id="3fcc7c15-d2cd-80cb-b336-cc76d08cdc1e" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">id = setTimeout(llamarTiempo, 5000);
+clearTimeout(id);</code></pre><p id="3fcc7c15-d2cd-8028-83c0-f91152eeb4ac" class="" dir="auto">la función setTimeout nos permite poner un temporizador antes de ejecutar una función o un bloque de código , durante el tiempo de espera podemos limpiar el temporizador para detener el proceso de espero y no ejecutar el bloque de código. Esto lo podemos lograr con clearTimeout. </p></div></details><details id="3fcc7c15-d2cd-80c0-b5f2-eaf8ed26d6e3" open="" class="toggle" dir="auto"><summary>setInterval</summary><div class="indented"><pre id="3fcc7c15-d2cd-809f-93fb-d577c24d0ac0" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">setInterval(() =&gt; {
+    console.log(&quot;Han pasado 1000 ms&quot;);
+}, 1000);</code></pre><p id="3fcc7c15-d2cd-80e4-9651-d41d5989cc21" class="" dir="auto">setInterval ejecuta el bloque de codigo contenido de forma repetida cada que termina el temporizador , lo podemos detener con la función clearTimeiot.</p></div></details></div></details><details id="3fcc7c15-d2cd-80f0-83ce-ebda1e8aeb99" open="" class="toggle" dir="auto"><summary>cookies</summary><div class="indented"><pre id="3fcc7c15-d2cd-80ef-8d25-d124d94e8372" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const crearCookie = () =&gt; {
+    document.cookie = &quot;nombre = carlos; expires = 17 Oct 2026 07:10:00 UTC&quot;;
+};</code></pre><p id="3fcc7c15-d2cd-80a5-867f-e9755b26e6d8" class="" dir="auto">document.cookie nos permite interactuar con las cookies del navegador, al usarlo asi, podremos tomár las cookies existentes, al poner = “variable = valor; expires = “fecha de expiración” insertaremos una cookie en el navegador.</p></div></details></div></details><details id="3fcc7c15-d2cd-80ac-b33e-e22f3f917963" open="" class="toggle" dir="auto"><summary>DOM</summary><div class="indented"><details id="3fcc7c15-d2cd-8067-b6bc-c805b8928dd0" open="" class="toggle" dir="auto"><summary>Introducción, Añadir y Eliminar Elementos del DOM</summary><div class="indented"><div id="3fcc7c15-d2cd-80f6-b204-c158c4d1aea7" class="tab" data-notion-tab-container="" dir="ltr"><details id="3fcc7c15-d2cd-80d1-a908-c3b72e817aad" open="" class="tab-page" data-notion-tab-page=""><summary>Introducción</summary><div class="indented"><details id="3fcc7c15-d2cd-8075-978b-d7bb28e7fece" open="" class="toggle" dir="auto"><summary>Introducción al DOM</summary><div class="indented"><details id="3fcc7c15-d2cd-80d0-ada6-ced783e4dd68" open="" class="toggle" dir="auto"><summary>getElementById ByClassName y ByTag</summary><div class="indented"><pre id="3fcc7c15-d2cd-80f8-9edc-cc32b55c2fe9" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const objetoById = document.getElementById(&quot;contenedor1&quot;);
+console.log(objetoById); 
+console.log(objetoById.children);
+console.log(objetoById.parentElement);
+
+const objetoByClass = document.getElementsByClassName(&quot;contenedor2&quot;);
+const objetoByTag = document.getElementsByTagName(&quot;div&quot;);</code></pre><p id="3fcc7c15-d2cd-8015-92e1-e492146834b2" class="" dir="auto">tenemos varias formas de identificar objetos dentro del DOM la primero es con el ID asignado al objeto, buscando de esta forma el objeto que queramos. existen otras 2 por clase y por etiqueta.<br/>Retorna listasHTML no iterables en for o algun ciclo logico.</p></div></details><details id="3fcc7c15-d2cd-8063-a09f-d2731f88b416" open="" class="toggle" dir="auto"><summary>querySelector</summary><div class="indented"><pre id="3fcc7c15-d2cd-803c-8954-e0d797ab8162" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const objetoByQuerySelector = document.querySelector(&quot;#contenedor1 .caja&quot;);
+const objetoByQuerySelectorAll = document.querySelectorAll(&quot;#contenedor1 .caja&quot;);
+
+console.log(objetoByQuerySelector);
+console.log(objetoByQuerySelectorAll);</code></pre><p id="3fcc7c15-d2cd-80ff-b9f6-d2c49e46a4cd" class="" dir="auto">El querySelectorAll nos retorna una lista de nodos la cual si podemos trabajar con ciclos lógicos como si de un arreglo se tratase. </p><p id="3fcc7c15-d2cd-8008-8c8c-ce8bcacd4edd" class="" dir="auto">estructura: document.querySelectorAll(#”identificador ccs padre” .”identificador css hijo”);</p></div></details><details id="3fcc7c15-d2cd-808d-82f1-f9522086159c" open="" class="toggle" dir="auto"><summary>closest</summary><div class="indented"><pre id="3fcc7c15-d2cd-80d9-ab81-e64a5a31861a" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(objetoByQuerySelectorAll[2].closest(&quot;.contenedor-principal&quot;));</code></pre><p id="3fcc7c15-d2cd-80bc-bc4f-c91f7a8d9adb" class="" dir="auto">Teniendo una referencia hija, podremos buscar las referencias padre con el elemento closest indicando dentro el padre que buscamos.</p></div></details><details id="3fcc7c15-d2cd-8021-8d02-cc85960d1246" open="" class="toggle" dir="auto"><summary>innerHTML</summary><div class="indented"><pre id="3fcc7c15-d2cd-80e4-827f-ee9fd885516a" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const caja = document.querySelector(&#x27;.caja&#x27;);
+console.log(caja.innerHTML);
+caja.innerHTML = &#x27;Hola Mundo&#x27;;</code></pre><p id="3fcc7c15-d2cd-8020-9f44-de3963780b54" class="" dir="auto">innerHTML nos permite obtener el contenido del elemento seleccionado, al acceder al contenido podemos modificarlo. </p></div></details><details id="3fcc7c15-d2cd-80ea-89f7-cee0b9484c1c" open="" class="toggle" dir="auto"><summary>attribute</summary><div class="indented"><pre id="3fcc7c15-d2cd-80c8-8d79-f9e76fbf54d1" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">caja.id = &#x27;caja1&#x27;;
+caja.className = &#x27;caja-modificada&#x27;;</code></pre><p id="3fcc7c15-d2cd-801a-acd4-f5ddd8732e04" class="" dir="auto">ese formato nos permite cambiar atributos del objeto especificado, en el ejemplo cambiamos el atributo ID y el atributo CLASS en caso de que el atributo no exista lo creará.</p></div></details><details id="3fcc7c15-d2cd-8050-ac3f-f1b1452b1d8f" open="" class="toggle" dir="auto"><summary>setAttribute</summary><div class="indented"><pre id="3fcc7c15-d2cd-802f-99ce-f892cd92cc54" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">caja.setAttribute(&#x27;data-nuevo-atributo&#x27;, &#x27;valor&#x27;);
+console.log(caja);</code></pre><p id="3fcc7c15-d2cd-809c-861d-f6e3aa5415f5" class="" dir="auto">con setAttibute podemos  crear atributos adicionales y simplemente ser más especificos con lo atributos existentes.</p></div></details><details id="3fcc7c15-d2cd-80cc-963f-cda4298ceaa8" open="" class="toggle" dir="auto"><summary>style.property</summary><div class="indented"><pre id="3fcc7c15-d2cd-80c6-ac1f-c5073ac1e75d" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const caja2 = document.querySelector(&#x27;#contenedor2 .caja&#x27;);
+caja2.style.color = &#x27;white&#x27;;
+caja2.style.backgroundColor = &#x27;blue&#x27;;
+caja2.style.fontSize = &#x27;20px&#x27;;
+caja2.style.padding = &#x27;10px&#x27;;
+caja2.style.textTransform = &#x27;uppercase&#x27;;</code></pre><p id="3fcc7c15-d2cd-8098-8f0d-db53f84e0926" class="" dir="auto">con esto podremos modificar propiedades css o añadir las mismas, tenemos que ser concientes de como se llaman las propiedades (conocimiento css) y que valor llevan, cuando la propiedad tenga un - entre su nomenclatura debemos cambiarla por nomenclatura camencase ejemplo: text-transform (css) a textTransform (js). </p></div></details></div></details></div></details><details id="3fcc7c15-d2cd-8079-9954-cd56f4e98dc8" open="" class="tab-page" data-notion-tab-page=""><summary>Añadir al DOM</summary><div class="indented"><details id="3fcc7c15-d2cd-8045-80e2-d1a3fac2945d" open="" class="toggle" dir="auto"><summary>Añadir Elementos al DOM</summary><div class="indented"><p id="3fcc7c15-d2cd-80ee-9178-fdc123fbc7c8" class="" dir="auto">Se deben seguir los siguientes pasos:</p><details id="3fcc7c15-d2cd-80da-b8ff-e74792af5f49" open="" class="toggle" dir="auto"><summary>1.- Crear Elemento (createElement)</summary><div class="indented"><pre id="3fcc7c15-d2cd-803a-b831-e4db2e1aff02" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const newCaja = document.createElement(&quot;div&quot;);</code></pre><p id="3fcc7c15-d2cd-80ec-9bbb-d4877b0aff64" class="" dir="auto">solo debemos definir el tag del elemento que queremos crear y almacenarlo en una variable.</p></div></details><details id="3fcc7c15-d2cd-8049-af1a-e9c5804974b8" open="" class="toggle" dir="auto"><summary>2.- Agregar contenido y atributos</summary><div class="indented"><p id="3fcc7c15-d2cd-80a7-986c-d4c96fcabda9" class="" dir="auto">Con el objeto creado y almacenado usaremos lo aprendido en la introducción al DOM</p><pre id="3fcc7c15-d2cd-80fe-83a9-c320676679e5" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">newCaja.innerHTML = &quot;nueva caja&quot;;
+    newCaja.setAttribute(&quot;id&quot;, &quot;nuevaCaja&quot;);
+    newCaja.setAttribute(&quot;class&quot;, &quot;caja activa&quot;);</code></pre><p id="3fcc7c15-d2cd-8073-bf20-cb0ebf98c806" class="" dir="auto">
+</p></div></details><details id="3fcc7c15-d2cd-8016-915d-c38c8e172cd7" open="" class="toggle" dir="auto"><summary>3.- Agregar al DOM</summary><div class="indented"><p id="3fcc7c15-d2cd-80d3-a76d-f2acf9636a4d" class="" dir="auto">para agregar al DOM tambien existen un procedimiento, primero debemos seleccionar el objeto donde insertaremos el nuevo Elemento.</p><pre id="3fcc7c15-d2cd-8082-8102-c449c5bb2c72" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const contenedor = document.querySelector(&quot;#contenedor1&quot;);</code></pre><p id="3fcc7c15-d2cd-8041-a108-e056e151be08" class="" dir="auto">ya seleccionado existen varias formas de insertar al dom:</p><details id="3fcc7c15-d2cd-8039-97ba-e41d35ff5483" open="" class="toggle" dir="auto"><summary>appendChild(”Elemento”)</summary><div class="indented"><p id="3fcc7c15-d2cd-80ae-b328-cc9743518252" class="" dir="auto">imaginando que el contenedor tiene una cola  de hijos con appendChild añadimos un hijo a la cola (al final)</p><pre id="3fcc7c15-d2cd-8001-8262-eab40d49e83f" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const contenedor = document.querySelector(&quot;#contenedor1&quot;);
+contenedor.appendChild(newCaja); // Agrega al final del contenedor</code></pre><p id="3fcc7c15-d2cd-8076-8c9e-e7d6167b0f25" class="" dir="auto">
+</p></div></details><details id="3fcc7c15-d2cd-8051-9958-ca4c7950e8ba" open="" class="toggle" dir="auto"><summary>insertAdjacentElement(”Ubicación”,”Elemento”)</summary><div class="indented"><p id="3fcc7c15-d2cd-80f5-8377-c02d1b05b0a0" class="" dir="auto">con esta función tendremos 4 ubicaciones donde isnertar elementos:</p><p id="3fcc7c15-d2cd-8087-8303-f6f9b0197576" class="" dir="auto">aferbegin, Se agrega como primer elemento <br/>beaforebegin, Se agrega antes del contenedor padre<br/>beforeend, Se agregar como ultimo elemento<br/>afterend, Se agrega después del padre</p><pre id="3fcc7c15-d2cd-80bf-be67-c6927b49b63b" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">contenedor.insertAdjacentElement(&quot;afterbegin&quot;, newCaja); // Agrega al inicio del contenedor
+contenedor.insertAdjacentElement(&quot;beforeend&quot;, newCaja); // Agrega al final del contenedor</code></pre><p id="3fcc7c15-d2cd-8050-b01e-cf95bc21ce7a" class="" dir="auto">
+</p></div></details><details id="3fcc7c15-d2cd-807c-97f6-d0bbd4749f48" open="" class="toggle" dir="auto"><summary>insertBefore(”nuevoElemento”, “ElementoExistente”)</summary><div class="indented"><pre id="3fcc7c15-d2cd-8064-b06c-dbfde86bdf57" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const cajaExistente = document.querySelectorAll(&quot;#contenedor1 .caja&quot;);
+    //cajaExistente.replaceWith(newCaja); // Reemplaza la caja existente con la nueva caja
+contenedor.insertBefore(newCaja, cajaExistente[2]); // Agrega al inicio del contenedor</code></pre><p id="3fcc7c15-d2cd-8046-9a00-f323c73414d2" class="" dir="auto">buscamos el objeto de referencia y el nuevo objeto se inserta antes del objeto de referencia.</p></div></details><details id="3fcc7c15-d2cd-80df-9eaa-dca6a7b5e2e0" open="" class="toggle" dir="auto"><summary>replaceWith(”Elemento”)</summary><div class="indented"><pre id="3fcc7c15-d2cd-80f0-9560-c8b454719078" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const cajaExistente = document.querySelector(&quot;#contenedor1 .caja&quot;);
+cajaExistente.replaceWith(newCaja); // Reemplaza la caja existente con la nueva caja</code></pre><p id="3fcc7c15-d2cd-8095-8bee-dc67a6c39fb1" class="" dir="auto">Buscamos el elemento que queremos remplazar con el nuevo elemento, y con replaceWith lo remplazamos.</p></div></details></div></details></div></details></div></details><details id="3fcc7c15-d2cd-8019-b4bd-d4b1d23955c5" open="" class="tab-page" data-notion-tab-page=""><summary>Eliminar del DOM</summary><div class="indented"><details id="3fcc7c15-d2cd-8001-9293-e40043c44360" open="" class="toggle" dir="auto"><summary>Eliminar Elementos del DOM</summary><div class="indented"><p id="3fcc7c15-d2cd-808d-98eb-c9c9ad750528" class="" dir="auto">Debemos ubicar al elemento padre, ubicar al hijo y usar la función .removeChild.</p><pre id="3fcc7c15-d2cd-8090-9f47-fbe65bb80254" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const eliminarCaja = () =&gt; {
+    const contenedor = document.querySelector(&quot;#contenedor1&quot;);
+    const cajaAEliminar = contenedor.querySelector(&quot;.caja&quot;);
+
+    contenedor.removeChild(cajaAEliminar);
+};</code></pre><p id="3fcc7c15-d2cd-80b7-804d-e3976504f358" class="" dir="auto">
+</p></div></details></div></details></div></div></details><details id="3fcc7c15-d2cd-8048-adb7-ec917982cf52" open="" class="toggle" dir="auto"><summary>Modificación de Clases y Estilos</summary><div class="indented"><details id="3fcc7c15-d2cd-80de-badd-dd7b4359ce06" open="" class="toggle" dir="auto"><summary>Clases</summary><div class="indented"><details id="3fcc7c15-d2cd-80bc-b2b7-f1806da0237c" open="" class="toggle" dir="auto"><summary>classList</summary><div class="indented"><p id="3fcc7c15-d2cd-8099-a134-f3c658815cbb" class="" dir="auto">Función que nos permite listar las clases de un elemeto.</p><pre id="3fcc7c15-d2cd-800f-9564-e924372c78d0" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const lista = elemento.classList;
+console.log(&quot;Lista de clases del elemento:&quot;, lista);</code></pre><p id="3fcc7c15-d2cd-80e3-b8b8-ea0efedaca41" class="" dir="auto">devolviendo algo como: </p><ol type="1" id="3fcc7c15-d2cd-8025-b7dd-dcb85bfe81dc" class="numbered-list" start="1" dir="auto"><li><em>DOMTokenList(2) [&#x27;caja&#x27;, &#x27;activa&#x27;, value: &#x27;caja activa&#x27;]</em><ol type="a" id="3fcc7c15-d2cd-805d-8e6d-e6aa4fdf4297" class="numbered-list" start="1" dir="auto"><li><strong>0</strong>: &quot;caja&quot;</li></ol><ol type="a" id="3fcc7c15-d2cd-8026-9bc2-f25563db25bf" class="numbered-list" start="2" dir="auto"><li><strong>1</strong>: &quot;activa&quot;</li></ol><ol type="a" id="3fcc7c15-d2cd-8077-b6d8-dbe761ca9486" class="numbered-list" start="3" dir="auto"><li>length: 2</li></ol><ol type="a" id="3fcc7c15-d2cd-8089-ab99-f44dd61ebabe" class="numbered-list" start="4" dir="auto"><li>value: &quot;caja activa&quot;</li></ol></li></ol></div></details><details id="3fcc7c15-d2cd-80dd-ac2c-c8c2fac39a7a" open="" class="toggle" dir="auto"><summary>.add(”clase que queremos añadir”)</summary><div class="indented"><p id="3fcc7c15-d2cd-802c-ae32-d719d1c7e66b" class="" dir="auto">Añade una clase al Elemento indicado.</p><pre id="3fcc7c15-d2cd-80e6-92cc-f5c5b2a32dc2" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const activarClase = () =&gt; {
+    const elemento = document.querySelector(&quot;.caja&quot;);
+    elemento.classList.add(&quot;activa&quot;);
+};</code></pre></div></details><details id="3fcc7c15-d2cd-8048-954e-cec3617f93cb" open="" class="toggle" dir="auto"><summary>.remove(”clase existente”)</summary><div class="indented"><p id="3fcc7c15-d2cd-8029-a120-c95872288f68" class="" dir="auto">Quita la calse especificada del Elemento indicado.</p><pre id="3fcc7c15-d2cd-806a-ad76-efcc1487f8d9" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const eliminarClase = () =&gt; {
+    const elemento = document.querySelector(&quot;.caja&quot;);
+    elemento.classList.remove(&quot;activa&quot;);
+};</code></pre></div></details><details id="3fcc7c15-d2cd-8052-a287-d1282c390656" open="" class="toggle" dir="auto"><summary>.toggle(”clase”)</summary><div class="indented"><p id="3fcc7c15-d2cd-8016-ab05-edadbcab466c" class="" dir="auto">Combina el .add y el .remove.</p><pre id="3fcc7c15-d2cd-8029-9883-d7c8db347d04" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const toggleClase = () =&gt; {
+    const elemento = document.querySelector(&quot;.caja&quot;);
+    elemento.classList.toggle(&quot;activa&quot;);
+};</code></pre></div></details><details id="3fcc7c15-d2cd-8039-8b29-d566bdfd7eaa" open="" class="toggle" dir="auto"><summary>contains(”clase”)</summary><div class="indented"><p id="3fcc7c15-d2cd-807a-a203-c7ff7318acc9" class="" dir="auto">Revisa si eiste una clase en el classList.</p><pre id="3fcc7c15-d2cd-80ae-bb02-ca65d244d90f" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const containsClase = () =&gt; {
+    const elemento = document.querySelector(&quot;.caja&quot;);
+    if (elemento.classList.contains(&quot;activa&quot;)) {
+        console.log(&quot;La clase &#x27;activa&#x27; está presente en el elemento.&quot;);
+    }else {
+        console.log(&quot;La clase &#x27;activa&#x27; NO está presente en el elemento.&quot;);
+    }
+};</code></pre></div></details></div></details><details id="3fcc7c15-d2cd-80c9-8ea8-cb317568af0b" open="" class="toggle" dir="auto"><summary>Estilos</summary><div class="indented"><p id="3fcc7c15-d2cd-8013-894a-f396b01cd42e" class="" dir="auto">para modificar los estilos CSS debemos seleccionar el elemento o los elementos. y con la función .style podremos acceder a todas las propiedades de css que conocemos y se pueden interaccuar con ellas. un ejemplo es elemento.style.color(”#ffff”); cambiando el color de la letra a blanco. con la misma estructura se pueden cambiar los estilos de css.</p><pre id="3fdc7c15-d2cd-8053-ab4a-e4513ca4c66f" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const elementos = document.querySelectorAll(&#x27;.caja&#x27;);
+
+elementos.forEach(elemento =&gt; {
+    elemento.style.backgroundColor = &#x27;lightblue&#x27;;
+    elemento.style.border = &#x27;2px solid #ccc&#x27;;
+});</code></pre><p id="3fdc7c15-d2cd-80df-a671-ead8d8799ec2" class="" dir="auto">
+</p></div></details></div></details><details id="3fcc7c15-d2cd-8000-af50-ee4ed6831e37" open="" class="toggle" dir="auto"><summary>Eventos</summary><div class="indented"><details id="3fdc7c15-d2cd-807a-99b0-ddb9c7ccfe85" open="" class="toggle" dir="auto"><summary>addEventListener</summary><div class="indented"><pre id="3fdc7c15-d2cd-805e-95c9-e28b7da8b6f3" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const boton1 = document.getElementById(&quot;boton1&quot;);
+boton1.addEventListener(&quot;click&quot;, (e) =&gt; {
+    const elemento = document.querySelector(&quot;.caja&quot;);
+    elemento.classList.toggle(&quot;activa&quot;);
+});
+</code></pre><p id="3fdc7c15-d2cd-80c4-aeda-f54e576d1932" class="" dir="auto">seleccionamos el elemento y le añadimos el evento, al definir el eventListener debemos poner que es lo que escuchará o el evento que estará esperando </p><p id="3fdc7c15-d2cd-8035-be34-e94118808cdf" class="" dir="auto">para más información sobre los eventos: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Events#event_listing">lista de eventos</a></p></div></details><details id="3fdc7c15-d2cd-8057-b3d9-cc4b5e4dda7f" open="" class="toggle" dir="auto"><summary>Propagación de eventos</summary><div class="indented"><p id="3fdc7c15-d2cd-804c-83f7-f5801248178d" class="" dir="auto">Esto sucede cuanto un elemento padre tiene un evento y un elemento hijo tiene un evento. al lanzar el evento del hijo tambien se ejecutará el evento propagado del padre. Para detener la propagación debemos poner en el evento hijo la siguiente linea de código: </p><pre id="3fdc7c15-d2cd-8047-92d4-c290527de923" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">boton1.addEventListener(&quot;click&quot;, (e) =&gt; {
+    e.stopPropagation(); // con esto detendremos la propagación.
+    const elemento = document.querySelector(&quot;.caja&quot;);
+    elemento.classList.toggle(&quot;activa&quot;);
+});
+</code></pre><p id="3fdc7c15-d2cd-8025-b016-ef1fe88a2ed5" class="" dir="auto">
+</p></div></details><details id="3fdc7c15-d2cd-800d-b5e6-f3d49bf21463" open="" class="toggle" dir="auto"><summary>removeEventListener</summary><div class="indented"><pre id="3fdc7c15-d2cd-80c0-9457-fbc1edf42dd1" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const boton1 = document.getElementById(&quot;boton1&quot;);
+const evento = () =&gt; {
+    const elemento = document.querySelector(&quot;.caja&quot;);
+    elemento.classList.toggle(&quot;activa&quot;);
+}
+boton1.removeEventListener(&quot;click&quot;, evento);</code></pre><p id="3fac7c15-d2cd-80a8-b0f2-f7365308e093" class="" dir="auto">debemos tomar el elemento, usar el remove y en los parametro del remove especificar el evento y la función que se va a eliminar del DOM.</p></div></details><details id="3fdc7c15-d2cd-800f-a79f-c0d18ffea043" open="" class="toggle" dir="auto"><summary>Delegación de eventos</summary><div class="indented"><p id="3fdc7c15-d2cd-803d-ab35-c714e02c5373" class="" dir="auto">Esta logica es aprovechar la propagación de eventos para ejecutar un eevento en todos los hijos de un padre. </p><p id="3fdc7c15-d2cd-80b1-9b45-d6ef6ac2c8d1" class="" dir="auto">el padre tendrá el array de sus hijos, aprovecharemos la función target para ubiccar el elemento que esta siendo afectado por el evento y ejecutaremos lo que queramos sobre el.</p><figure id="3fdc7c15-d2cd-80af-ad31-e30a510c012a" class="image" data-notion-image="image.png" dir="ltr"><a href="image.png"><img style="width:590.15625px" src="image.png"/></a></figure></div></details></div></details></div></details><details id="3fdc7c15-d2cd-80e1-8df3-cb56a4b26d6e" open="" class="toggle" dir="auto"><summary>Api Insersection Observer</summary><div class="indented"><figure id="3fdc7c15-d2cd-8012-8d27-dd5a75920a58" class="image" data-notion-image="image%201.png" dir="ltr"><a href="image%201.png"><img style="width:622.96875px" src="image%201.png"/></a></figure><p id="3fdc7c15-d2cd-808c-bb2d-e6df2256a734" class="" dir="auto">Se instancia un objeto observador, como parámetros son la función a ejecutar y  las especificaciones del observador.</p><p id="3fdc7c15-d2cd-802b-979d-c98df2bca7e2" class="" dir="auto">ROOT: ubicación donde trabajara el observer al usar NULL estamos diciendo que trabaja en toda la ventana.</p><p id="3fdc7c15-d2cd-80ed-97d8-dd6a7220d9da" class="" dir="auto">ROOTMARGIN: al heredar el tamaño del root podremos agregarle márgenes para tener una “bandera” que nos avise que yá llegó el objeto que estamos observando.</p><p id="3fdc7c15-d2cd-8059-adc0-ed04d98e05f5" class="" dir="auto">THRESHOLD: es el porcentaje del objeto que estará dentro del observador cuando que ramos lanzar la función.</p><p id="3fdc7c15-d2cd-807c-b72e-eec590a7ff03" class="" dir="auto">ya por ultimo para observar un elemento se debe seleccionar el elemento HTML y usar la función observe.</p><figure id="3fdc7c15-d2cd-8057-9bc1-ef4732502280" class="image" data-notion-image="image%202.png" dir="ltr"><a href="image%202.png"><img style="width:558.7723388671875px" src="image%202.png"/></a></figure><figure id="3fdc7c15-d2cd-80ab-b2a8-c4d90657f1f2" class="image" data-notion-image="image%203.png" dir="ltr"><a href="image%203.png"><img style="width:300.9821472167969px" src="image%203.png"/></a></figure></div></details><p id="419c7c15-d2cd-80fb-938d-f847461d04a3" class="" dir="auto">
+</p><p id="403c7c15-d2cd-8051-b95e-c3c9adcd9bc8" class="" dir="auto">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
